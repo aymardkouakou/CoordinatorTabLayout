@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * @author hugeterry(http://hugeterry.cn)
  */
-
+@Deprecated
 public class SystemView {
     public static int getStatusBarHeight(Context context) {
         int result = 0;

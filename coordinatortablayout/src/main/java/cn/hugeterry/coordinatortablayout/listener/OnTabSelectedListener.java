@@ -1,11 +1,11 @@
 package cn.hugeterry.coordinatortablayout.listener;
 
-import android.support.design.widget.TabLayout;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * @author hugeterry(http://hugeterry.cn)
  */
-
+@Deprecated
 public interface OnTabSelectedListener {
 
     public void onTabSelected(TabLayout.Tab tab);

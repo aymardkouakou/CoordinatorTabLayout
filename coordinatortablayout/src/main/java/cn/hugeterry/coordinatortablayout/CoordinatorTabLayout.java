@@ -6,15 +6,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -24,6 +15,16 @@ import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import cn.hugeterry.coordinatortablayout.listener.LoadHeaderImagesListener;
 import cn.hugeterry.coordinatortablayout.listener.OnTabSelectedListener;
 import cn.hugeterry.coordinatortablayout.utils.SystemView;
@@ -31,7 +32,7 @@ import cn.hugeterry.coordinatortablayout.utils.SystemView;
 /**
  * @author hugeterry(http://hugeterry.cn)
  */
-
+@Deprecated
 public class CoordinatorTabLayout extends CoordinatorLayout {
     private int[] mImageArray, mColorArray;
 
