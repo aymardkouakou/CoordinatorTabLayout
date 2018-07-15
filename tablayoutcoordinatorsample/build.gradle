@@ -1,10 +1,12 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.0"
 
+
     defaultConfig {
+        applicationId "com.aymardkouakou.tablayoutcoordinatorsample"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -27,11 +29,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
     implementation 'com.google.android.material:material:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
 
-    //compile gradleApi()
-    //compile localGroovy() //not needed for Java plugins
+    implementation project(':tablayoutcoordinator')
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

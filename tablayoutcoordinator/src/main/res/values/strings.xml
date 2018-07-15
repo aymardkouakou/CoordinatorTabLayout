@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tab Layout Coordinator</string>
+    <string name="imageview_description">imageview</string>
 </resources>
