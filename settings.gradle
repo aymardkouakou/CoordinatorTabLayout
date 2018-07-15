@@ -1,1 +1,1 @@
-include ':sample', ':coordinatortablayout', ':tablayoutcoordinator', ':tablayoutcoordinatorsample'
+include ':tablayoutcoordinator', ':tablayoutcoordinatorsample'
