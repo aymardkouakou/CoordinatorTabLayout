@@ -41,17 +41,11 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
     private TabLayout.OnTabSelectedListener mOnTabSelectedListener;
 
     public TabLayoutCoordinator(Context context) {
-        super(context);
-        mContext = context;
+        this(context, null);
     }
 
     public TabLayoutCoordinator(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mContext = context;
-        if (!isInEditMode()) {
-            initView(context);
-            initWidget(context, attrs);
-        }
+        this(context, attrs, 0);
     }
 
     public TabLayoutCoordinator(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -72,21 +66,27 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
     }
 
     private void initWidget(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs
-                , R.styleable.TabLayoutCoordinator);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs
+                , R.styleable.TabLayoutCoordinator, 0, 0);
 
-        TypedValue typedValue = new TypedValue();
-        mContext.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        int contentScrimColor = typedArray.getColor(
-                R.styleable.TabLayoutCoordinator_contentScrim, typedValue.data);
-        mCollapsingToolbarLayout.setContentScrimColor(contentScrimColor);
+        try {
+            TypedValue typedValue = new TypedValue();
+            mContext.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
 
-        int tabIndicatorColor = typedArray.getColor(R.styleable.TabLayoutCoordinator_tabIndicatorColor, Color.WHITE);
-        mTabLayout.setSelectedTabIndicatorColor(tabIndicatorColor);
+            int contentScrimColor = typedArray.getColor(
+                    R.styleable.TabLayoutCoordinator_contentScrim, typedValue.data
+            );
+            mCollapsingToolbarLayout.setContentScrimColor(contentScrimColor);
 
-        int tabTextColor = typedArray.getColor(R.styleable.TabLayoutCoordinator_tabTextColor, Color.WHITE);
-        mTabLayout.setTabTextColors(ColorStateList.valueOf(tabTextColor));
-        typedArray.recycle();
+            int tabIndicatorColor = typedArray.getColor(R.styleable.TabLayoutCoordinator_tabIndicatorColor, Color.WHITE);
+            mTabLayout.setSelectedTabIndicatorColor(tabIndicatorColor);
+
+            int tabTextColor = typedArray.getColor(R.styleable.TabLayoutCoordinator_tabTextColor, Color.WHITE);
+            mTabLayout.setTabTextColors(ColorStateList.valueOf(tabTextColor));
+        }
+        finally {
+            typedArray.recycle();
+        }
     }
 
     private void initToolbar(View v) {
@@ -98,31 +98,41 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
     public TabLayoutCoordinator setTitle(String title) {
         if (mActionbar != null) {
             mActionbar.setTitle(title);
+            invalidate();
+            requestLayout();
         }
         return this;
     }
 
-    public TabLayoutCoordinator setBackEnable(Boolean canBack) {
+    public TabLayoutCoordinator setDisplayHomeAsUpEnabled(Boolean canBack) {
         if (canBack && mActionbar != null) {
             mActionbar.setDisplayHomeAsUpEnabled(true);
             mActionbar.setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp);
+            invalidate();
+            requestLayout();
         }
         return this;
     }
 
     public TabLayoutCoordinator setImageArray(@NonNull int[] imageArray) {
         mImageArray = imageArray;
+        invalidate();
+        requestLayout();
         return this;
     }
 
     public TabLayoutCoordinator setImageArray(@NonNull int[] imageArray, @NonNull int[] colorArray) {
         mImageArray = imageArray;
         mColorArray = colorArray;
+        invalidate();
+        requestLayout();
         return this;
     }
 
     public TabLayoutCoordinator setContentScrimColorArray(@NonNull int[] colorArray) {
         mColorArray = colorArray;
+        invalidate();
+        requestLayout();
         return this;
     }
 
@@ -130,7 +140,9 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mImageView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss));
+                mImageView.startAnimation(
+                        AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss)
+                );
                 if (mLoadHeaderImagesListener == null) {
                     if (mImageArray != null) {
                         mImageView.setImageResource(mImageArray[tab.getPosition()]);
@@ -141,7 +153,9 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
                 if (mColorArray != null) {
                     mCollapsingToolbarLayout.setContentScrimColor(
                             ContextCompat.getColor(
-                                    mContext, mColorArray[tab.getPosition()]));
+                                    mContext, mColorArray[tab.getPosition()]
+                            )
+                    );
                 }
                 mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_show));
 
@@ -165,70 +179,56 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
                 }
             }
         });
+        invalidate();
+        requestLayout();
     }
 
     public TabLayoutCoordinator setTabMode(@TabLayout.Mode int mode) {
         mTabLayout.setTabMode(mode);
+        invalidate();
+        requestLayout();
         return this;
     }
 
     public TabLayoutCoordinator setupWithViewPager(ViewPager viewPager) {
         setupTabLayout();
         mTabLayout.setupWithViewPager(viewPager);
+        invalidate();
+        requestLayout();
         return this;
     }
 
-    /**
-     * 获取该组件中的ActionBar
-     */
     public ActionBar getActionBar() {
         return mActionbar;
     }
 
-    /**
-     * 获取该组件中的TabLayout
-     */
     public TabLayout getTabLayout() {
         return mTabLayout;
     }
 
-    /**
-     * 获取该组件中的ImageView
-     */
     public ImageView getImageView() {
         return mImageView;
     }
 
-    /**
-     * 设置LoadHeaderImagesListener
-     *
-     * @param loadHeaderImagesListener 设置LoadHeaderImagesListener
-     * @return CoordinatorTabLayout
-     */
-    public TabLayoutCoordinator setLoadHeaderImagesListener(LoadHeaderImagesListener loadHeaderImagesListener) {
+    public TabLayoutCoordinator setLoadHeaderImagesListener(
+            LoadHeaderImagesListener loadHeaderImagesListener
+    ) {
         mLoadHeaderImagesListener = loadHeaderImagesListener;
+        invalidate();
+        requestLayout();
         return this;
     }
 
-    /**
-     * 设置onTabSelectedListener
-     *
-     * @param onTabSelectedListener 设置onTabSelectedListener
-     * @return CoordinatorTabLayout
-     */
-    public TabLayoutCoordinator addOnTabSelectedListener(TabLayout.OnTabSelectedListener onTabSelectedListener) {
+    public TabLayoutCoordinator addOnTabSelectedListener(
+            TabLayout.OnTabSelectedListener onTabSelectedListener
+    ) {
         mOnTabSelectedListener = onTabSelectedListener;
+        invalidate();
+        requestLayout();
         return this;
     }
 
-    /**
-     * 设置透明状态栏
-     *
-     * @param activity 当前展示的activity
-     * @return CoordinatorTabLayout
-     */
     public TabLayoutCoordinator setTranslucentStatusBar(@NonNull Activity activity) {
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return this;
         }
@@ -236,8 +236,10 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
             activity.getWindow()
                     .getDecorView()
-                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    .setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    );
+        } else {
             activity.getWindow()
                     .setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                             WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -251,7 +253,8 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
                     layoutParams.rightMargin,
                     layoutParams.bottomMargin);
         }
-
+        invalidate();
+        requestLayout();
         return this;
     }
 
@@ -269,6 +272,8 @@ public class TabLayoutCoordinator extends CoordinatorLayout {
         } else {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        invalidate();
+        requestLayout();
         return this;
     }
 

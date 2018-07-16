@@ -1,11 +1,18 @@
 <resources>
 
-    <style name="TabLayoutStyle" parent="@style/Widget.MaterialComponents.TabLayout">
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">8dp</item>
+        <item name="tabPaddingEnd">8dp</item>
+        <!--<item name="tabBackground">?attr/selectableItemBackground</item>-->
+        <item name="tabBackground">@android:color/holo_orange_light</item>
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">true</item>
     </style>
 
 </resources>

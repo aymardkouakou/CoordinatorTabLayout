@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayoutCoordinator = findViewById(R.id.tablayoutcoordinator);
         mTabLayoutCoordinator.setTranslucentStatusBar(this)
-                .setTitle("Demo")
-                .setBackEnable(true)
+                .setTitle("Demo for life")
+                .setDisplayHomeAsUpEnabled(true)
                 .setImageArray(mImageArray, mColorArray)
                 .setupWithViewPager(mViewPager);
     }
